@@ -11,10 +11,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val ft = supportFragmentManager.beginTransaction()
-        val fragmentList = FragmentList()
+        val fragmentList = ContactsListFragment()
         ft.replace(
             R.id.contentLayout, fragmentList,
-            FragmentList.TAG
+            ContactsListFragment.TAG
         )
         ft.commit()
     }

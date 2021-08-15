@@ -1,6 +1,6 @@
 package com.alejandromr.kontacts.presentation
 
-import com.alejandromr.kontacts.domain.ResultsModel
+import com.alejandromr.kontacts.domain.ContactModel
 
 interface Contract {
 
@@ -10,7 +10,7 @@ interface Contract {
 
         fun hideProgress()
 
-        fun displayList(list: ResultsModel)
+        fun displayList(list: Set<ContactModel>)
 
         fun displayError()
 
@@ -19,5 +19,9 @@ interface Contract {
     interface Presenter : BaseContract.Presenter<View> {
 
         fun obtainContacts()
+
+        fun navigateToContactDetail(contact: ContactModel)
+
+        fun deleteContact(contact: ContactModel)
     }
 }

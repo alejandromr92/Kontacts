@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alejandromr.kontacts.databinding.ContactItemViewBinding
 import com.alejandromr.kontacts.domain.ContactModel
-import com.alejandromr.kontacts.domain.ResultsModel
 
 class ContactsAdapter(
     private val onItemClick: (contact: ContactModel) -> Unit,
@@ -15,8 +14,8 @@ class ContactsAdapter(
 
     private var items: Set<ContactModel> = emptySet()
 
-    fun setItems(newItems: ResultsModel) {
-        items = newItems.results
+    fun setItems(newItems: Set<ContactModel>) {
+        items = newItems
         notifyDataSetChanged()
     }
 

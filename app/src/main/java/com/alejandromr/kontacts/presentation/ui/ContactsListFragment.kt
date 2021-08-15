@@ -9,15 +9,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alejandromr.kontacts.R
 import com.alejandromr.kontacts.databinding.FragmentListBinding
-import com.alejandromr.kontacts.domain.ResultsModel
+import com.alejandromr.kontacts.domain.ContactModel
 import com.alejandromr.kontacts.presentation.ContactsAdapter
 import com.alejandromr.kontacts.presentation.Contract
 import org.koin.android.ext.android.inject
 
 
-class FragmentList : Fragment(R.layout.fragment_list), Contract.View {
+class ContactsListFragment : Fragment(R.layout.fragment_list), Contract.View {
 
     private val presenter: Contract.Presenter by inject()
 
@@ -36,31 +37,29 @@ class FragmentList : Fragment(R.layout.fragment_list), Contract.View {
         presenter.obtainContacts()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-    }
-
     private fun configViews(binding: FragmentListBinding) {
-        binding.nextButton.setOnClickListener {
-            navigateToDetail()
-        }
-
         binding.modelList.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            adapter = ContactsAdapter { message ->
+            adapter = ContactsAdapter({ contact ->
                 context?.let {
-                    Toast.makeText(it, message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(it, "CLICKED ${contact.name}", Toast.LENGTH_SHORT).show()
                 }
-                navigateToDetail()  //TODO: change to item detail
-            }
+                presenter.navigateToContactDetail(contact)
+            }, { contact ->
+                context?.let {
+                    Toast.makeText(it, "DELETED ${contact.name}", Toast.LENGTH_SHORT).show()
+                }
+                presenter.deleteContact(contact)
+            })
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        presenter.obtainContacts()
+                    }
+                }
+            })
         }
     }
 
@@ -68,7 +67,7 @@ class FragmentList : Fragment(R.layout.fragment_list), Contract.View {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
 
         transaction?.let {
-            it.addToBackStack(FragmentList.TAG)
+            it.addToBackStack(ContactsListFragment.TAG)
             it.replace(R.id.contentLayout, FragmentDetail(), FragmentDetail.TAG)
             it.commit()
         }
@@ -89,7 +88,7 @@ class FragmentList : Fragment(R.layout.fragment_list), Contract.View {
         binding?.listProgressBar?.visibility = GONE
     }
 
-    override fun displayList(list: ResultsModel) {
+    override fun displayList(list: Set<ContactModel>) {
         (binding?.modelList?.adapter as? ContactsAdapter)?.setItems(list)
     }
 
