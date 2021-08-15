@@ -25,12 +25,18 @@ class Presenter(private val getContactsUseCase: GetContactsUseCase) : Contract.P
 
     private var contactsList = mutableSetOf<ContactModel>()
 
+    private var deletedContactsList = mutableSetOf<ContactModel>()
+
     override fun obtainContacts() {
         coroutineScope.launch {
             view?.showProgress()
             val resultList = getContactsUseCase()
             if (resultList is Success) {
-                contactsList.addAll(resultList.result.results)
+                contactsList.addAll(resultList.result.results.filter {
+                    !deletedContactsList.contains(
+                        it
+                    )
+                })
                 view?.displayList(contactsList)
             } else {
                 view?.displayError()
@@ -44,6 +50,9 @@ class Presenter(private val getContactsUseCase: GetContactsUseCase) : Contract.P
     }
 
     override fun deleteContact(contact: ContactModel) {
+        this.contactsList.remove(contact)
+        this.deletedContactsList.add(contact)
+        view?.displayList(contactsList)
     }
 
     override fun detachView() {
