@@ -7,7 +7,10 @@ import com.alejandromr.kontacts.databinding.ContactItemViewBinding
 import com.alejandromr.kontacts.domain.ContactModel
 import com.alejandromr.kontacts.domain.ResultsModel
 
-class ContactsAdapter(private val onItemClick: (text: String) -> Unit) :
+class ContactsAdapter(
+    private val onItemClick: (contact: ContactModel) -> Unit,
+    private val onItemDeleteClick: (contact: ContactModel) -> Unit
+) :
     RecyclerView.Adapter<ContactViewHolder>() {
 
     private var items: Set<ContactModel> = emptySet()
@@ -23,7 +26,9 @@ class ContactsAdapter(private val onItemClick: (text: String) -> Unit) :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), onItemClick
+            ),
+            onItemClick,
+            onItemDeleteClick
         )
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {

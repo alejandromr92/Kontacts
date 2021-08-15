@@ -7,7 +7,8 @@ import com.bumptech.glide.Glide
 
 class ContactViewHolder(
     private val binding: ContactItemViewBinding,
-    private val onClicked: (text: String) -> Unit
+    private val onContactClicked: (contact: ContactModel) -> Unit,
+    private val onDeleteClicked: (contact: ContactModel) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun update(item: ContactModel) {
@@ -31,9 +32,10 @@ class ContactViewHolder(
             }
         }
 
-
         binding.itemListRoot.setOnClickListener {
-//            onClicked.invoke("Item data is: ${item.data}")
+            onContactClicked.invoke(item)
         }
+
+        binding.deleteButton.setOnClickListener { onDeleteClicked.invoke(item) }
     }
 }
