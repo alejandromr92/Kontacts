@@ -1,4 +1,4 @@
-package com.alejandromr.kontacts2
+package com.alejandromr.kontacts
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
