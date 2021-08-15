@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ui.MainActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/nextButton"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:text="NEXT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/modelList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/nextButton"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/contact_item_view" />
+
+    <ProgressBar
+        android:id="@+id/listProgressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:elevation="10dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
