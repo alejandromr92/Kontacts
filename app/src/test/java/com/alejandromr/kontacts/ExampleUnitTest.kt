@@ -1,4 +1,4 @@
-package com.alejandromr.kontacts2
+package com.alejandromr.kontacts
 
 import org.junit.Test
 
