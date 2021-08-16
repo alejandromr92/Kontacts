@@ -46,16 +46,18 @@ class ContactsListPresenter(private val getContactsUseCase: GetContactsUseCase) 
         }
     }
 
-    override fun navigateToContactDetail(contact: ContactModel) {
-        view?.let {
-//            Navigation.findNavController(it)
-        }
-    }
-
     override fun deleteContact(contact: ContactModel) {
         this.contactsList.remove(contact)
         this.deletedContactsList.add(contact)
         view?.displayList(contactsList)
+    }
+
+    override fun filterByInput(input: String) {
+        view?.displayList(contactsList.filter {
+            it.name.first.startsWith(input) || it.name.last.startsWith(
+                input
+            ) || it.email.startsWith(input)
+        }.toSet())
     }
 
     override fun detachView() {

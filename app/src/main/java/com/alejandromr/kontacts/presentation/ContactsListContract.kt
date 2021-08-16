@@ -20,8 +20,8 @@ interface ContactsListContract {
 
         fun obtainContacts()
 
-        fun navigateToContactDetail(contact: ContactModel)
-
         fun deleteContact(contact: ContactModel)
+
+        fun filterByInput(input: String)
     }
 }

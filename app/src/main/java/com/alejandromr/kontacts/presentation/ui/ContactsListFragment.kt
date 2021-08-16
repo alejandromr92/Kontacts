@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -24,6 +24,8 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
 
     private var binding: FragmentListBinding? = null
 
+    private var shouldObtainInitialContacts = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -34,7 +36,10 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
         }
 
         presenter.attachView(this)
-        presenter.obtainContacts()
+        if (shouldObtainInitialContacts) {
+            presenter.obtainContacts()
+            shouldObtainInitialContacts = false
+        }
     }
 
     private fun configViews(binding: FragmentListBinding) {
@@ -42,14 +47,8 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = ContactsAdapter({ contact ->
-                context?.let {
-                    Toast.makeText(it, "CLICKED ${contact.name}", Toast.LENGTH_SHORT).show()
-                }
                 navigateToContactDetail(contact)
             }, { contact ->
-                context?.let {
-                    Toast.makeText(it, "DELETED ${contact.name}", Toast.LENGTH_SHORT).show()
-                }
                 presenter.deleteContact(contact)
             })
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -58,6 +57,21 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
                     if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
                         presenter.obtainContacts()
                     }
+                }
+            })
+        }
+
+        binding.searchView.apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    newText?.let {
+                        presenter.filterByInput(newText)
+                    }
+                    return false
                 }
             })
         }
