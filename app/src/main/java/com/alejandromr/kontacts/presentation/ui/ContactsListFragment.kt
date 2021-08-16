@@ -7,6 +7,7 @@ import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,13 +15,12 @@ import com.alejandromr.kontacts.R
 import com.alejandromr.kontacts.databinding.FragmentListBinding
 import com.alejandromr.kontacts.domain.ContactModel
 import com.alejandromr.kontacts.presentation.ContactsAdapter
-import com.alejandromr.kontacts.presentation.Contract
+import com.alejandromr.kontacts.presentation.ContactsListContract
 import org.koin.android.ext.android.inject
 
+class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContract.View {
 
-class ContactsListFragment : Fragment(R.layout.fragment_list), Contract.View {
-
-    private val presenter: Contract.Presenter by inject()
+    private val presenter: ContactsListContract.Presenter by inject()
 
     private var binding: FragmentListBinding? = null
 
@@ -45,7 +45,7 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), Contract.View {
                 context?.let {
                     Toast.makeText(it, "CLICKED ${contact.name}", Toast.LENGTH_SHORT).show()
                 }
-                presenter.navigateToContactDetail(contact)
+                navigateToContactDetail(contact)
             }, { contact ->
                 context?.let {
                     Toast.makeText(it, "DELETED ${contact.name}", Toast.LENGTH_SHORT).show()
@@ -63,13 +63,10 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), Contract.View {
         }
     }
 
-    private fun navigateToDetail() {
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-
-        transaction?.let {
-            it.addToBackStack(ContactsListFragment.TAG)
-            it.replace(R.id.contentLayout, FragmentDetail(), FragmentDetail.TAG)
-            it.commit()
+    private fun navigateToContactDetail(contact: ContactModel) {
+        view?.let {
+            Navigation.findNavController(it)
+                .navigate(ContactsListFragmentDirections.navigateToDetail(contact))
         }
     }
 
@@ -106,6 +103,6 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), Contract.View {
     }
 
     companion object {
-        const val TAG = "FragmentList"
+        const val TAG = "ContactsListFragment"
     }
 }

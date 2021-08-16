@@ -1,10 +1,10 @@
 package com.alejandromr.kontacts.di
 
-import com.alejandromr.kontacts.presentation.Contract
-import com.alejandromr.kontacts.presentation.Presenter
+import com.alejandromr.kontacts.presentation.ContactsListContract
+import com.alejandromr.kontacts.presentation.ContactsListPresenter
 import org.koin.dsl.module
 
 val presentersModule = module {
 
-    factory<Contract.Presenter> { Presenter(get()) }
+    factory<ContactsListContract.Presenter> { ContactsListPresenter(get()) }
 }

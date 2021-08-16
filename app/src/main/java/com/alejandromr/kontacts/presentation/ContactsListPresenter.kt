@@ -10,9 +10,10 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class Presenter(private val getContactsUseCase: GetContactsUseCase) : Contract.Presenter {
+class ContactsListPresenter(private val getContactsUseCase: GetContactsUseCase) :
+    ContactsListContract.Presenter {
 
-    override var view: Contract.View? = null
+    override var view: ContactsListContract.View? = null
 
     private val errorHandler =
         CoroutineExceptionHandler { _, _ ->
@@ -46,7 +47,9 @@ class Presenter(private val getContactsUseCase: GetContactsUseCase) : Contract.P
     }
 
     override fun navigateToContactDetail(contact: ContactModel) {
-
+        view?.let {
+//            Navigation.findNavController(it)
+        }
     }
 
     override fun deleteContact(contact: ContactModel) {

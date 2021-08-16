@@ -2,7 +2,7 @@ package com.alejandromr.kontacts.presentation
 
 import com.alejandromr.kontacts.domain.ContactModel
 
-interface Contract {
+interface ContactsListContract {
 
     interface View : BaseContract.View {
 

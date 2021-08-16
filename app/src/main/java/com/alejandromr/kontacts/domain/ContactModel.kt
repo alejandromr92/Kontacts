@@ -1,5 +1,7 @@
 package com.alejandromr.kontacts.domain
 
+import java.io.Serializable
+
 data class ContactModel(
     val name: NameModel,
     val gender: String,
@@ -8,6 +10,6 @@ data class ContactModel(
     val phone: String,
     val email: String,
     val picture: PictureModel
-)
+) : Serializable
 
 

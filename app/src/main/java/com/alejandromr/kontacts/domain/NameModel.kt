@@ -1,8 +1,8 @@
 package com.alejandromr.kontacts.domain
 
-import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class NameModel(
     val first: String,
     val last: String
-)
+) : Serializable

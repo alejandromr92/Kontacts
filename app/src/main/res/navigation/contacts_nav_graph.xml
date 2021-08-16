@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/contactsListFragment">
+
+    <fragment
+        android:id="@+id/contactsListFragment"
+        android:name="com.alejandromr.kontacts.presentation.ui.ContactsListFragment"
+        android:label="ContactsListFragment">
+        <action
+            android:id="@+id/navigateToDetail"
+            app:destination="@+id/contactDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDetailFragment"
+        android:name="com.alejandromr.kontacts.presentation.ui.ContactDetailFragment"
+        android:label="ContactDetailFragment">
+        <argument
+            android:name="contact"
+            app:argType="com.alejandromr.kontacts.domain.ContactModel"
+            app:nullable="false" />
+    </fragment>
+</navigation>

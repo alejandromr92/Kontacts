@@ -1,9 +1,9 @@
 package com.alejandromr.kontacts.domain
 
-import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class PictureModel(
     val large: String,
     val medium: String,
     val thumbnail: String
-)
+) : Serializable
