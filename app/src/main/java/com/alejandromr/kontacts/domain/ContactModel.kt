@@ -1,5 +1,9 @@
 package com.alejandromr.kontacts.domain
 
+import com.alejandromr.kontacts.domain.model.LocationModel
+import com.alejandromr.kontacts.domain.model.NameModel
+import com.alejandromr.kontacts.domain.model.PictureModel
+import com.alejandromr.kontacts.domain.model.RegistrationModel
 import java.io.Serializable
 
 data class ContactModel(

@@ -2,7 +2,7 @@ package com.alejandromr.kontacts.presentation
 
 import com.alejandromr.kontacts.api.Success
 import com.alejandromr.kontacts.domain.ContactModel
-import com.alejandromr.kontacts.domain.GetContactsUseCase
+import com.alejandromr.kontacts.domain.usecase.GetContactsUseCase
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

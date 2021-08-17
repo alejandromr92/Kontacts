@@ -1,6 +1,6 @@
 package com.alejandromr.kontacts.api
 
-import com.alejandromr.kontacts.domain.ResultsModel
+import com.alejandromr.kontacts.domain.model.ResultsModel
 import com.alejandromr.kontacts.mappers.ResultMapper
 import com.alejandromr.kontacts.networkclient.NetworkClient
 import com.alejandromr.kontacts.repository.DataSource

@@ -1,5 +1,6 @@
 package com.alejandromr.kontacts.api
 
+import com.alejandromr.kontacts.api.model.ResultsApiModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
