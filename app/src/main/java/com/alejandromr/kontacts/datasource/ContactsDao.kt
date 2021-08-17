@@ -5,17 +5,16 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.alejandromr.kontacts.domain.ContactModel
 
 @Dao
 interface ContactsDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun saveRetrievedContacts(contacts: Set<ContactModel>)
+    suspend fun saveRetrievedContacts(contacts: List<ContactDbModel>)
 
     @Query("SELECT * FROM contacts WHERE deleted = 0")
-    suspend fun retrieveContacts(): Set<ContactModel>
+    suspend fun retrieveContacts(): List<ContactDbModel>
 
     @Update
-    suspend fun deleteContact(contactModel: ContactModel)
+    suspend fun deleteContact(contactModel: ContactDbModel)
 }

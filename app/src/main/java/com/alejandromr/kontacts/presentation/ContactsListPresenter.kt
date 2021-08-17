@@ -1,7 +1,8 @@
 package com.alejandromr.kontacts.presentation
 
 import com.alejandromr.kontacts.api.Success
-import com.alejandromr.kontacts.domain.ContactModel
+import com.alejandromr.kontacts.domain.model.ContactModel
+import com.alejandromr.kontacts.domain.usecase.DeleteContactUseCase
 import com.alejandromr.kontacts.domain.usecase.GetContactsUseCase
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -10,7 +11,10 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class ContactsListPresenter(private val getContactsUseCase: GetContactsUseCase) :
+class ContactsListPresenter(
+    private val getContactsUseCase: GetContactsUseCase,
+    private val deleteContactUseCase: DeleteContactUseCase
+) :
     ContactsListContract.Presenter {
 
     override var view: ContactsListContract.View? = null
@@ -47,9 +51,17 @@ class ContactsListPresenter(private val getContactsUseCase: GetContactsUseCase) 
     }
 
     override fun deleteContact(contact: ContactModel) {
-        this.contactsList.remove(contact)
-        this.deletedContactsList.add(contact)
-        view?.displayList(contactsList)
+        coroutineScope.launch {
+            try {
+                contact.deleted = true
+                deleteContactUseCase(contact)
+                contactsList.remove(contact)
+                deletedContactsList.add(contact)
+                view?.displayList(contactsList)
+            } catch (ex: Exception) {
+                view?.displayErrorWhileDeleting(contact)
+            }
+        }
     }
 
     override fun filterByInput(input: String) {

@@ -1,7 +1,7 @@
 package com.alejandromr.kontacts.mappers
 
 import com.alejandromr.kontacts.api.model.ContactApiModel
-import com.alejandromr.kontacts.domain.ContactModel
+import com.alejandromr.kontacts.domain.model.ContactModel
 
 class ContactMapper(
     private val nameMapper: NameMapper,

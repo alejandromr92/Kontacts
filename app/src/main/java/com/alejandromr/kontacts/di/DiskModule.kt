@@ -1,3 +1,4 @@
+@file:Suppress("RemoveExplicitTypeArguments")
 package com.alejandromr.kontacts.di
 
 import androidx.room.Room

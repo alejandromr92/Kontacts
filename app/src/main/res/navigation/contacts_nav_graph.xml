@@ -18,7 +18,7 @@
         android:label="ContactDetailFragment">
         <argument
             android:name="contact"
-            app:argType="com.alejandromr.kontacts.domain.ContactModel"
+            app:argType="com.alejandromr.kontacts.domain.model.ContactModel"
             app:nullable="false" />
     </fragment>
 </navigation>

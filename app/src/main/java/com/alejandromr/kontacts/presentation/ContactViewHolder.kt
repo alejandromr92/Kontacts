@@ -2,7 +2,7 @@ package com.alejandromr.kontacts.presentation
 
 import androidx.recyclerview.widget.RecyclerView
 import com.alejandromr.kontacts.databinding.ContactItemViewBinding
-import com.alejandromr.kontacts.domain.ContactModel
+import com.alejandromr.kontacts.domain.model.ContactModel
 import com.bumptech.glide.Glide
 
 class ContactViewHolder(

@@ -2,10 +2,12 @@ package com.alejandromr.kontacts.datasource
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.alejandromr.kontacts.domain.ContactModel
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import com.alejandromr.kontacts.domain.model.ContactModel
 
 @Database(
-    entities = [ContactModel::class],
+    entities = [ContactDbModel::class],
     version = 1
 )
 abstract class ContactsDatabase : RoomDatabase() {

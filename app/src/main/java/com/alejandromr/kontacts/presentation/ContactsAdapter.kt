@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alejandromr.kontacts.databinding.ContactItemViewBinding
-import com.alejandromr.kontacts.domain.ContactModel
+import com.alejandromr.kontacts.domain.model.ContactModel
 
 class ContactsAdapter(
     private val onItemClick: (contact: ContactModel) -> Unit,

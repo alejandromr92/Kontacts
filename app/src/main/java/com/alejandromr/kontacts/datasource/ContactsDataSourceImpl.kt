@@ -4,7 +4,7 @@ import com.alejandromr.kontacts.api.ApiService
 import com.alejandromr.kontacts.api.Result
 import com.alejandromr.kontacts.api.Success
 import com.alejandromr.kontacts.api.safeApiCall
-import com.alejandromr.kontacts.domain.ContactModel
+import com.alejandromr.kontacts.domain.model.ContactModel
 import com.alejandromr.kontacts.domain.model.ResultsModel
 import com.alejandromr.kontacts.mappers.ResultMapper
 import com.alejandromr.kontacts.networkclient.NetworkClient
@@ -12,7 +12,7 @@ import com.alejandromr.kontacts.repository.ContactsDataSource
 
 class ContactsDataSourceImpl(
     networkClient: NetworkClient,
-    private val database: ContactsDatabase,
+    private val contactsDao: ContactsDao,
     private val resultMapper: ResultMapper
 ) : ContactsDataSource {
 

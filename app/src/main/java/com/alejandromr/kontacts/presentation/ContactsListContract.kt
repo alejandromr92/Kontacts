@@ -1,6 +1,6 @@
 package com.alejandromr.kontacts.presentation
 
-import com.alejandromr.kontacts.domain.ContactModel
+import com.alejandromr.kontacts.domain.model.ContactModel
 
 interface ContactsListContract {
 
@@ -14,6 +14,7 @@ interface ContactsListContract {
 
         fun displayError()
 
+        fun displayErrorWhileDeleting(contact: ContactModel)
     }
 
     interface Presenter : BaseContract.Presenter<View> {

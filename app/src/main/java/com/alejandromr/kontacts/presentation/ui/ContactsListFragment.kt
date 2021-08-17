@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alejandromr.kontacts.R
 import com.alejandromr.kontacts.databinding.FragmentListBinding
-import com.alejandromr.kontacts.domain.ContactModel
+import com.alejandromr.kontacts.domain.model.ContactModel
 import com.alejandromr.kontacts.presentation.ContactsAdapter
 import com.alejandromr.kontacts.presentation.ContactsListContract
 import org.koin.android.ext.android.inject
@@ -110,6 +110,19 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
                 .setMessage("Would you like to try again?")
                 .setPositiveButton(android.R.string.yes) { _, _ ->
                     presenter.obtainContacts()
+                }  // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .show()
+        }
+    }
+
+    override fun displayErrorWhileDeleting(contact: ContactModel) {
+        context?.let {
+            AlertDialog.Builder(it)
+                .setTitle("Something went wrong while trying to delete ${contact.name.first}")
+                .setMessage("Would you like to try again?")
+                .setPositiveButton(android.R.string.yes) { _, _ ->
+                    presenter.deleteContact(contact)
                 }  // A null listener allows the button to dismiss the dialog and take no further action.
                 .setNegativeButton(android.R.string.no, null)
                 .show()
