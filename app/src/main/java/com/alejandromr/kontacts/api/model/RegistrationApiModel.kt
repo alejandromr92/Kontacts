@@ -1,4 +1,4 @@
-package com.alejandromr.kontacts.api
+package com.alejandromr.kontacts.api.model
 
 import com.google.gson.annotations.SerializedName
 

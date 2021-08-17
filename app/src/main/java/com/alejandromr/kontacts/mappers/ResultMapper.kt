@@ -1,7 +1,7 @@
 package com.alejandromr.kontacts.mappers
 
-import com.alejandromr.kontacts.api.ResultsApiModel
-import com.alejandromr.kontacts.domain.ResultsModel
+import com.alejandromr.kontacts.api.model.ResultsApiModel
+import com.alejandromr.kontacts.domain.model.ResultsModel
 
 class ResultMapper(private val contactMapper: ContactMapper) :
     Mapper<ResultsApiModel, ResultsModel> {

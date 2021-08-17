@@ -1,4 +1,4 @@
-package com.alejandromr.kontacts.domain
+package com.alejandromr.kontacts.domain.model
 
 import com.google.gson.annotations.SerializedName
 

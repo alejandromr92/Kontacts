@@ -1,6 +1,6 @@
 package com.alejandromr.kontacts.mappers
 
-import com.alejandromr.kontacts.api.ContactApiModel
+import com.alejandromr.kontacts.api.model.ContactApiModel
 import com.alejandromr.kontacts.domain.ContactModel
 
 class ContactMapper(
