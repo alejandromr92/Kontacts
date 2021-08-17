@@ -1,13 +1,10 @@
 package com.alejandromr.kontacts.di
 
-import com.alejandromr.kontacts.api.DataSourceImpl
-import com.alejandromr.kontacts.domain.Repository
-import com.alejandromr.kontacts.repository.DataSource
-import com.alejandromr.kontacts.repository.RepositoryImpl
+import com.alejandromr.kontacts.domain.ContactsRepository
+import com.alejandromr.kontacts.repository.ContactsRepositoryImpl
 import org.koin.dsl.module
 
 val repositoryModule = module {
 
-    single<Repository> { RepositoryImpl(get()) }
-    single<DataSource> { DataSourceImpl(get(), get()) }
+    single<ContactsRepository> { ContactsRepositoryImpl(get()) }
 }
