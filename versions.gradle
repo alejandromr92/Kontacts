@@ -16,6 +16,9 @@ ext {
     // Async threading
     coroutines_version = "1.4.0"
 
+    // Room
+    room_version = "2.3.0"
+
     // Network connections and parsing
     retrofit_version = "2.7.0"
     ok_http_version = "4.8.0"

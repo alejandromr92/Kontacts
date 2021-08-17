@@ -53,6 +53,10 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutines_version"
 
+    // Database
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
     // Connections
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
