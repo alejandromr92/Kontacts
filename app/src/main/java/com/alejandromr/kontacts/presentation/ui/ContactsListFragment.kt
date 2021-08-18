@@ -24,8 +24,6 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
 
     private var binding: FragmentListBinding? = null
 
-    private var shouldObtainInitialContacts = true
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -36,10 +34,7 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
         }
 
         presenter.attachView(this)
-        if (shouldObtainInitialContacts) {
-            presenter.obtainContacts()
-            shouldObtainInitialContacts = false
-        }
+        presenter.obtainContacts()
     }
 
     private fun configViews(binding: FragmentListBinding) {
@@ -55,7 +50,7 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        presenter.obtainContacts()
+                        presenter.obtainContactsFromApi()
                     }
                 }
             })

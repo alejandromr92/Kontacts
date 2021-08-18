@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 
 @Dao
 interface ContactsDao {
@@ -15,6 +14,6 @@ interface ContactsDao {
     @Query("SELECT * FROM contacts WHERE deleted = 0")
     suspend fun retrieveContacts(): List<ContactDbModel>
 
-    @Update
-    suspend fun deleteContact(contactModel: ContactDbModel)
+    @Query("UPDATE contacts SET deleted = 1 WHERE email = :email")
+    suspend fun deleteContact(email: String)
 }

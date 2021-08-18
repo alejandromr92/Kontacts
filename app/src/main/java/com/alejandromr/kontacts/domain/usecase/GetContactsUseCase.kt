@@ -2,6 +2,7 @@ package com.alejandromr.kontacts.domain.usecase
 
 import com.alejandromr.kontacts.domain.AppDispatchers
 import com.alejandromr.kontacts.domain.ContactsRepository
+import com.alejandromr.kontacts.domain.model.ContactModel
 import kotlinx.coroutines.withContext
 
 class GetContactsUseCase(
@@ -9,7 +10,8 @@ class GetContactsUseCase(
     private val contactsRepository: ContactsRepository
 ) {
 
-    suspend operator fun invoke() = withContext(appDispatchers.io) {
-        contactsRepository.retrieveData()
-    }
+    suspend operator fun invoke(forceApi: Boolean = true): Set<ContactModel> =
+        withContext(appDispatchers.io) {
+            contactsRepository.retrieveData(forceApi)
+        }
 }

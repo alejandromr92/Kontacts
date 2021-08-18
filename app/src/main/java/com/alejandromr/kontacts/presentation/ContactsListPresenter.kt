@@ -1,6 +1,5 @@
 package com.alejandromr.kontacts.presentation
 
-import com.alejandromr.kontacts.api.Success
 import com.alejandromr.kontacts.domain.model.ContactModel
 import com.alejandromr.kontacts.domain.usecase.DeleteContactUseCase
 import com.alejandromr.kontacts.domain.usecase.GetContactsUseCase
@@ -29,34 +28,36 @@ class ContactsListPresenter(
         CoroutineScope(Dispatchers.Main + job + errorHandler)
 
     private var contactsList = mutableSetOf<ContactModel>()
-
     private var deletedContactsList = mutableSetOf<ContactModel>()
 
     override fun obtainContacts() {
         coroutineScope.launch {
             view?.showProgress()
-            val resultList = getContactsUseCase()
-            if (resultList is Success) {
-                contactsList.addAll(resultList.result.results.filter {
-                    !deletedContactsList.contains(
-                        it
-                    )
-                })
-                view?.displayList(contactsList)
-            } else {
-                view?.displayError()
-            }
+            val resultList = getContactsUseCase(false)
+            contactsList.addAll(resultList.filter { !deletedContactsList.contains(it) })
+            view?.displayList(contactsList)
             view?.hideProgress()
         }
     }
 
+    override fun obtainContactsFromApi() {
+        coroutineScope.launch {
+            view?.showProgress()
+            val resultList = getContactsUseCase(true)
+            contactsList.addAll(resultList.filter { !deletedContactsList.contains(it) })
+            view?.displayList(contactsList)
+            view?.hideProgress()
+        }
+    }
+
+
     override fun deleteContact(contact: ContactModel) {
         coroutineScope.launch {
             try {
-                contact.deleted = true
-                deleteContactUseCase(contact)
                 contactsList.remove(contact)
                 deletedContactsList.add(contact)
+                contact.deleted = true
+                deleteContactUseCase(contact)
                 view?.displayList(contactsList)
             } catch (ex: Exception) {
                 view?.displayErrorWhileDeleting(contact)

@@ -22,6 +22,6 @@ val diskModule = module {
     single<ContactsDao> { get<ContactsDatabase>().contactsDao() }
 
     /** Data Sources */
-    single<ContactsDataSource> { ContactsDataSourceImpl(get(), get(), get()) }
+    single<ContactsDataSource> { ContactsDataSourceImpl(get(), get(), get(), get()) }
 
 }

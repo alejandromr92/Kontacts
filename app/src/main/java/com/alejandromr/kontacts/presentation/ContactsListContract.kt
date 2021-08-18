@@ -21,6 +21,8 @@ interface ContactsListContract {
 
         fun obtainContacts()
 
+        fun obtainContactsFromApi()
+
         fun deleteContact(contact: ContactModel)
 
         fun filterByInput(input: String)
