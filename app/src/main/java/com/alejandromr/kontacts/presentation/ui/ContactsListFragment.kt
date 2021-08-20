@@ -63,11 +63,9 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
         binding.modelList.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            adapter = ContactsAdapter({ contact ->
+            adapter = ContactsAdapter { contact ->
                 navigateToContactDetail(contact)
-            }, { contact ->
-                presenter.deleteContact(contact)
-            })
+            }
             val swipeToDelete = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
                 override fun onMove(
                     recyclerView: RecyclerView,

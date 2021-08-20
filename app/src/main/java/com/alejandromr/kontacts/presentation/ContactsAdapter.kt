@@ -2,13 +2,14 @@ package com.alejandromr.kontacts.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils.loadAnimation
 import androidx.recyclerview.widget.RecyclerView
+import com.alejandromr.kontacts.R
 import com.alejandromr.kontacts.databinding.ContactItemViewBinding
 import com.alejandromr.kontacts.domain.model.ContactModel
 
 class ContactsAdapter(
-    private val onItemClick: (contact: ContactModel) -> Unit,
-    private val onItemDeleteClick: (contact: ContactModel) -> Unit
+    private val onItemClick: (contact: ContactModel) -> Unit
 ) :
     RecyclerView.Adapter<ContactViewHolder>() {
 
@@ -26,11 +27,11 @@ class ContactsAdapter(
                 parent,
                 false
             ),
-            onItemClick,
-            onItemDeleteClick
+            onItemClick
         )
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
+        holder.binding.itemListRoot.animation = loadAnimation(holder.itemView.context, R.anim.item_list_animation)
         items.elementAtOrNull(position)?.let {
             holder.update(it)
         }

@@ -6,9 +6,8 @@ import com.alejandromr.kontacts.domain.model.ContactModel
 import com.bumptech.glide.Glide
 
 class ContactViewHolder(
-    private val binding: ContactItemViewBinding,
+    val binding: ContactItemViewBinding,
     private val onContactClicked: (contact: ContactModel) -> Unit,
-    private val onDeleteClicked: (contact: ContactModel) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun update(item: ContactModel) {
