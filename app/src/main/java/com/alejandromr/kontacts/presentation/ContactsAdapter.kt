@@ -37,4 +37,6 @@ class ContactsAdapter(
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun getItem(position: Int) = items.elementAt(position)
 }

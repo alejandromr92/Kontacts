@@ -35,7 +35,5 @@ class ContactViewHolder(
         binding.itemListRoot.setOnClickListener {
             onContactClicked.invoke(item)
         }
-
-        binding.deleteButton.setOnClickListener { onDeleteClicked.invoke(item) }
     }
 }

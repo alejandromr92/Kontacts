@@ -1,14 +1,17 @@
 package com.alejandromr.kontacts.presentation.ui
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alejandromr.kontacts.R
@@ -16,7 +19,9 @@ import com.alejandromr.kontacts.databinding.FragmentListBinding
 import com.alejandromr.kontacts.domain.model.ContactModel
 import com.alejandromr.kontacts.presentation.ContactsAdapter
 import com.alejandromr.kontacts.presentation.ContactsListContract
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import org.koin.android.ext.android.inject
+
 
 class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContract.View {
 
@@ -38,6 +43,23 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
     }
 
     private fun configViews(binding: FragmentListBinding) {
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                (binding.modelList.adapter as? ContactsAdapter)?.getItem(viewHolder.adapterPosition)
+                    ?.let {
+                        presenter.deleteContact(it)
+                    }
+            }
+        }
+
         binding.modelList.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -46,6 +68,65 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
             }, { contact ->
                 presenter.deleteContact(contact)
             })
+            val swipeToDelete = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    (adapter as? ContactsAdapter)?.getItem(viewHolder.adapterPosition)?.let {
+                        presenter.deleteContact(it)
+                    }
+                }
+
+                override fun onChildDraw(
+                    c: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
+                ) {
+                    context?.let {
+                        RecyclerViewSwipeDecorator.Builder(
+                            c,
+                            recyclerView,
+                            viewHolder,
+                            dX,
+                            dY,
+                            actionState,
+                            isCurrentlyActive
+                        )
+                            .addBackgroundColor(
+                                ContextCompat.getColor(
+                                    it,
+                                    android.R.color.holo_red_light
+                                )
+                            )
+                            .addActionIcon(R.drawable.ic_delete)
+                            .create()
+                            .decorate()
+                    }
+                    super.onChildDraw(
+                        c,
+                        recyclerView,
+                        viewHolder,
+                        dX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+                }
+            }
+
+            val itemTouchHelper = ItemTouchHelper(swipeToDelete)
+            itemTouchHelper.attachToRecyclerView(this)
+
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
