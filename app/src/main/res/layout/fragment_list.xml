@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:focusable="false"
         app:iconifiedByDefault="false"
+        app:queryHint="Search a contact..."
         app:layout_constraintTop_toTopOf="parent"
         app:showDividers="middle" />
 
