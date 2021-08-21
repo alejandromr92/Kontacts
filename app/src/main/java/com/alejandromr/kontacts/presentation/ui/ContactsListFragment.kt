@@ -166,13 +166,13 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
         (binding?.modelList?.adapter as? ContactsAdapter)?.setItems(list)
     }
 
-    override fun displayError() {
+    override fun displayError(fromApi: Boolean) {
         context?.let {
             MaterialAlertDialogBuilder(it)
                 .setTitle("Something went wrong")
                 .setMessage("Would you like to try again?")
                 .setPositiveButton(android.R.string.yes) { _, _ ->
-                    presenter.obtainContacts(false)
+                    presenter.obtainContacts(fromApi)
                 }  // A null listener allows the button to dismiss the dialog and take no further action.
                 .setNegativeButton(android.R.string.no, null)
                 .show()
