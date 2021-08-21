@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class PictureApiModel(
     @SerializedName("large")
-    val large: String?,
+    val large: String? = null,
 
     @SerializedName("medium")
-    val medium: String?,
+    val medium: String? = null,
 
     @SerializedName("thumbnail")
-    val thumbnail: String?
+    val thumbnail: String? = null
 )

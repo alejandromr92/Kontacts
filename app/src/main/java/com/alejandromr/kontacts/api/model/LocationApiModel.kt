@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class LocationApiModel(
     @SerializedName("street")
-    val street: StreetApiModel?,
+    val street: StreetApiModel? = null,
 
     @SerializedName("city")
-    val city: String?,
+    val city: String? = null,
 
     @SerializedName("state")
-    val state: String?
+    val state: String? = null
 )

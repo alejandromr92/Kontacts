@@ -4,24 +4,24 @@ import com.google.gson.annotations.SerializedName
 
 data class ContactApiModel(
     @SerializedName("name")
-    val name: NameApiModel?,
+    val name: NameApiModel? = null,
 
     @SerializedName("gender")
-    val gender: String?,
+    val gender: String? = null,
 
     @SerializedName("location")
-    val location: LocationApiModel?,
+    val location: LocationApiModel? = null,
 
     @SerializedName("registered")
-    val registered: RegistrationApiModel?,
+    val registered: RegistrationApiModel? = null,
 
     @SerializedName("phone")
-    val phone: String?,
+    val phone: String? = null,
 
     @SerializedName("email")
-    val email: String?,
+    val email: String? = null,
 
     @SerializedName("picture")
-    val picture: PictureApiModel?
+    val picture: PictureApiModel? = null
 )
 

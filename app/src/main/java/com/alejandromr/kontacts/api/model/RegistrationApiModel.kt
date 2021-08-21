@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class RegistrationApiModel(
     @SerializedName("date")
-    val date: String?
+    val date: String? = null
 )

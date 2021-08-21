@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class StreetApiModel(
     @SerializedName("name")
-    val name: String?,
+    val name: String? = null,
 
     @SerializedName("number")
-    val number: String?
+    val number: String? = null
 
 )

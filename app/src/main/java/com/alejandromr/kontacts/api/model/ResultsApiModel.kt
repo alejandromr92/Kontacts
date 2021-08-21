@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class ResultsApiModel(
     @SerializedName("results")
-    val results: Set<ContactApiModel>?
+    val results: Set<ContactApiModel>? = null
 )
