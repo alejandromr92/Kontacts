@@ -4,7 +4,7 @@ import com.alejandromr.kontacts.api.model.ResultsApiModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ApiService {
+interface ContactsApiService {
 
     @GET(".")
     suspend fun retrieveContacts(
@@ -15,7 +15,7 @@ interface ApiService {
     companion object {
         const val RESULTS_KEY = "results"
         const val INCLUDE_KEY = "inc"
-        const val RESULTS_TO_RETRIEVE = 40
+        const val RESULTS_TO_RETRIEVE = 2
         const val DATA_TO_INCLUDE = "name,location,email,registered,picture,gender,phone"
     }
 }

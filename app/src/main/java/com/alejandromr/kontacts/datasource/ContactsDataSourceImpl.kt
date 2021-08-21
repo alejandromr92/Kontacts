@@ -1,10 +1,9 @@
 package com.alejandromr.kontacts.datasource
 
-import com.alejandromr.kontacts.api.ApiService
+import com.alejandromr.kontacts.api.ContactsApiService
 import com.alejandromr.kontacts.api.Failure
 import com.alejandromr.kontacts.api.Result
 import com.alejandromr.kontacts.api.Success
-import com.alejandromr.kontacts.api.model.ResultsApiModel
 import com.alejandromr.kontacts.api.safeApiCall
 import com.alejandromr.kontacts.domain.model.ContactModel
 import com.alejandromr.kontacts.mappers.ContactMapper
@@ -19,11 +18,11 @@ class ContactsDataSourceImpl(
     private val contactsMapper: ContactMapper
 ) : ContactsDataSource {
 
-    private val service: ApiService = networkClient.retrofit.create(ApiService::class.java)
+    private val contactsApiService: ContactsApiService = networkClient.retrofit.create(ContactsApiService::class.java)
 
     override suspend fun retrieveContactsFromApi(): Result<Set<ContactModel>> {
         val contactsRetrieved = safeApiCall {
-            resultMapper.map(service.retrieveContacts())
+            resultMapper.map(contactsApiService.retrieveContacts())
         }
 
         return if (contactsRetrieved is Success) {

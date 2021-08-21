@@ -40,4 +40,5 @@ ext {
     mockk_version = "1.10.6"
     espresso_version = "3.3.0"
     barista_version = "3.7.0"
+    robolectric_version = "4.5.1"
 }
