@@ -1,11 +1,14 @@
 package com.alejandromr.kontacts.presentation.ui
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.alejandromr.kontacts.R
 import com.alejandromr.kontacts.databinding.FragmentContactDetailBinding
 import com.bumptech.glide.Glide
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
 
@@ -21,7 +24,8 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
                 binding?.apply {
                     name.text = "${contact.name.first} ${contact.name.last}"
 
-                    location.text = "${contact.location.street.name}, ${contact.location.street.number}, ${contact.location.city}, ${contact.location.state}"
+                    location.text =
+                        "${contact.location.street.name}, ${contact.location.street.number}, ${contact.location.city}, ${contact.location.state}"
 
                     email.text = contact.email
 
@@ -29,7 +33,15 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
 
                     gender.text = contact.gender
 
-                    registrationDate.text = "${contact.registered.date}"
+                    val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+                    format.parse(contact.registered.date)?.let {
+                        registrationDate.text = DateUtils.formatDateTime(
+                            context,
+                            it.time,
+                            DateUtils.FORMAT_ABBREV_MONTH
+                        )
+                    }
 
                     picture.apply {
                         if (contact.picture.thumbnail.isNotBlank()) {

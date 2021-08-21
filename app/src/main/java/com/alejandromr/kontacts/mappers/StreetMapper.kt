@@ -5,7 +5,7 @@ import com.alejandromr.kontacts.domain.model.StreetModel
 
 class StreetMapper : Mapper<StreetApiModel, StreetModel> {
     override fun map(from: StreetApiModel?): StreetModel = StreetModel(
-        from?.number ?: "",
-        from?.name ?: ""
+        from?.name ?: "",
+        from?.number ?: ""
     )
 }
