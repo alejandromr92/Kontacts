@@ -22,7 +22,7 @@ class ContactsListPresenter(
     private val errorHandler =
         CoroutineExceptionHandler { _, _ ->
             view?.hideProgress()
-            view?.displayError()
+            view?.displayError(false)
         }
     private val job = SupervisorJob()
     private var coroutineScope =
@@ -39,7 +39,7 @@ class ContactsListPresenter(
                 contactsList.addAll(resultList.result.filter { !deletedContactsList.contains(it) })
                 view?.displayList(contactsList)
             } else {
-                view?.displayError()
+                view?.displayError(fromApi)
             }
             view?.hideProgress()
         }

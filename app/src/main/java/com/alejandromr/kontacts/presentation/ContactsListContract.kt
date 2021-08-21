@@ -12,7 +12,7 @@ interface ContactsListContract {
 
         fun displayList(list: Set<ContactModel>)
 
-        fun displayError()
+        fun displayError(retryFromApi: Boolean)
 
         fun displayErrorWhileDeleting(contact: ContactModel)
     }
