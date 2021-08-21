@@ -1,16 +1,7 @@
 package com.alejandromr.kontacts.datasource
 
 import com.alejandromr.kontacts.api.ContactsApiService
-import com.alejandromr.kontacts.api.Failure
-import com.alejandromr.kontacts.api.Success
-import com.alejandromr.kontacts.api.model.ContactApiModel
-import com.alejandromr.kontacts.api.model.LocationApiModel
-import com.alejandromr.kontacts.api.model.NameApiModel
-import com.alejandromr.kontacts.api.model.PictureApiModel
-import com.alejandromr.kontacts.api.model.RegistrationApiModel
 import com.alejandromr.kontacts.api.model.ResultsApiModel
-import com.alejandromr.kontacts.api.model.StreetApiModel
-import com.alejandromr.kontacts.api.safeApiCall
 import com.alejandromr.kontacts.domain.model.ContactModel
 import com.alejandromr.kontacts.domain.model.LocationModel
 import com.alejandromr.kontacts.domain.model.NameModel
@@ -31,7 +22,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.any
 import retrofit2.Retrofit
 
 class ContactsDataSourceImplTest {
@@ -67,8 +57,8 @@ class ContactsDataSourceImplTest {
         every { networkClient.retrofit } returns retrofit
         every { retrofit.create(ContactsApiService::class.java) } returns contactsApiService
         every { resultMapper.map(any()) } returns ResultsModel(setOf())
-        every { contactsMapper.mapToDatabaseModelList(any())} returns listOf()
-        every { contactsMapper.mapFromDatabaseModelList(any())} returns setOf()
+        every { contactsMapper.mapToDatabaseModelList(any()) } returns listOf()
+        every { contactsMapper.mapFromDatabaseModelList(any()) } returns setOf()
         coEvery { contactsDao.retrieveContacts() } returns listOf()
         coEvery { contactsDao.saveRetrievedContacts(any()) } returns Unit
         coEvery { contactsDao.deleteContact("email") } returns Unit
@@ -95,7 +85,7 @@ class ContactsDataSourceImplTest {
     @Test
     fun `retrieve contacts from api flow when failure`() {
         runBlockingTest {
-            coEvery { contactsApiService.retrieveContacts()  } throws Exception()
+            coEvery { contactsApiService.retrieveContacts() } throws Exception()
 
             dataSource.retrieveContactsFromApi()
 
