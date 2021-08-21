@@ -19,6 +19,7 @@ import com.alejandromr.kontacts.databinding.FragmentListBinding
 import com.alejandromr.kontacts.domain.model.ContactModel
 import com.alejandromr.kontacts.presentation.ContactsAdapter
 import com.alejandromr.kontacts.presentation.ContactsListContract
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import org.koin.android.ext.android.inject
 
@@ -39,27 +40,10 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
         }
 
         presenter.attachView(this)
-        presenter.obtainContacts()
+        presenter.obtainContacts(false)
     }
 
     private fun configViews(binding: FragmentListBinding) {
-        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                (binding.modelList.adapter as? ContactsAdapter)?.getItem(viewHolder.adapterPosition)
-                    ?.let {
-                        presenter.deleteContact(it)
-                    }
-            }
-        }
-
         binding.modelList.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -129,7 +113,7 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        presenter.obtainContactsFromApi()
+                        presenter.obtainContacts(true)
                     }
                 }
             })
@@ -179,11 +163,11 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
 
     override fun displayError() {
         context?.let {
-            AlertDialog.Builder(it)
+            MaterialAlertDialogBuilder(it)
                 .setTitle("Something went wrong")
                 .setMessage("Would you like to try again?")
                 .setPositiveButton(android.R.string.yes) { _, _ ->
-                    presenter.obtainContacts()
+                    presenter.obtainContacts(false)
                 }  // A null listener allows the button to dismiss the dialog and take no further action.
                 .setNegativeButton(android.R.string.no, null)
                 .show()
@@ -192,7 +176,7 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
 
     override fun displayErrorWhileDeleting(contact: ContactModel) {
         context?.let {
-            AlertDialog.Builder(it)
+            MaterialAlertDialogBuilder(it)
                 .setTitle("Something went wrong while trying to delete ${contact.name.first}")
                 .setMessage("Would you like to try again?")
                 .setPositiveButton(android.R.string.yes) { _, _ ->

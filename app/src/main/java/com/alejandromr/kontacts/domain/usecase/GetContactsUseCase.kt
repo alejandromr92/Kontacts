@@ -1,5 +1,6 @@
 package com.alejandromr.kontacts.domain.usecase
 
+import com.alejandromr.kontacts.api.Result
 import com.alejandromr.kontacts.domain.AppDispatchers
 import com.alejandromr.kontacts.domain.ContactsRepository
 import com.alejandromr.kontacts.domain.model.ContactModel
@@ -10,7 +11,7 @@ class GetContactsUseCase(
     private val contactsRepository: ContactsRepository
 ) {
 
-    suspend operator fun invoke(forceApi: Boolean = true): Set<ContactModel> =
+    suspend operator fun invoke(forceApi: Boolean = true): Result<Set<ContactModel>> =
         withContext(appDispatchers.io) {
             contactsRepository.retrieveData(forceApi)
         }

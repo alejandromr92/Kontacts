@@ -9,13 +9,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val ft = supportFragmentManager.beginTransaction()
-        val fragmentList = ContactsListFragment()
-        ft.replace(
-            R.id.contentLayout, fragmentList,
-            ContactsListFragment.TAG
-        )
-        ft.commit()
     }
 }

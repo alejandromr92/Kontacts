@@ -30,7 +30,7 @@ class ContactMapper(
     fun mapToDatabaseModelList(from: List<ContactModel?>?): List<ContactDbModel> =
         from?.map { mapToDatabaseModel(it) } ?: emptyList()
 
-    fun mapToDatabaseModel(from: ContactModel?): ContactDbModel =
+    private fun mapToDatabaseModel(from: ContactModel?): ContactDbModel =
         ContactDbModel(
             from?.name?.first ?: "",
             from?.name?.last ?: "",
@@ -50,7 +50,7 @@ class ContactMapper(
     fun mapFromDatabaseModelList(from: Set<ContactDbModel?>?): Set<ContactModel> =
         from?.map { mapFromDatabaseModel(it) }?.toSet() ?: emptySet()
 
-    fun mapFromDatabaseModel(from: ContactDbModel?): ContactModel =
+    private fun mapFromDatabaseModel(from: ContactDbModel?): ContactModel =
         ContactModel(
             NameModel(from?.name ?: "", from?.surname ?: ""),
             from?.gender ?: "",

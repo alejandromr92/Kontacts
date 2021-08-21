@@ -1,5 +1,6 @@
 package com.alejandromr.kontacts.presentation
 
+import com.alejandromr.kontacts.api.Success
 import com.alejandromr.kontacts.domain.model.ContactModel
 import com.alejandromr.kontacts.domain.usecase.DeleteContactUseCase
 import com.alejandromr.kontacts.domain.usecase.GetContactsUseCase
@@ -30,26 +31,19 @@ class ContactsListPresenter(
     private var contactsList = mutableSetOf<ContactModel>()
     private var deletedContactsList = mutableSetOf<ContactModel>()
 
-    override fun obtainContacts() {
+    override fun obtainContacts(fromApi: Boolean) {
         coroutineScope.launch {
             view?.showProgress()
-            val resultList = getContactsUseCase(false)
-            contactsList.addAll(resultList.filter { !deletedContactsList.contains(it) })
-            view?.displayList(contactsList)
+            val resultList = getContactsUseCase(fromApi)
+            if (resultList is Success) {
+                contactsList.addAll(resultList.result.filter { !deletedContactsList.contains(it) })
+                view?.displayList(contactsList)
+            } else {
+                view?.displayError()
+            }
             view?.hideProgress()
         }
     }
-
-    override fun obtainContactsFromApi() {
-        coroutineScope.launch {
-            view?.showProgress()
-            val resultList = getContactsUseCase(true)
-            contactsList.addAll(resultList.filter { !deletedContactsList.contains(it) })
-            view?.displayList(contactsList)
-            view?.hideProgress()
-        }
-    }
-
 
     override fun deleteContact(contact: ContactModel) {
         coroutineScope.launch {

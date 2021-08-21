@@ -19,9 +19,7 @@ interface ContactsListContract {
 
     interface Presenter : BaseContract.Presenter<View> {
 
-        fun obtainContacts()
-
-        fun obtainContactsFromApi()
+        fun obtainContacts(fromApi: Boolean)
 
         fun deleteContact(contact: ContactModel)
 
