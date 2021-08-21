@@ -127,6 +127,11 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     newText?.let {
+                        queryHint = if (it.isEmpty()){
+                            "Search a contact..."
+                        } else {
+                            ""
+                        }
                         presenter.filterByInput(newText)
                     }
                     return false
