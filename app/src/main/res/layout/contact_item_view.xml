@@ -48,6 +48,6 @@
         android:layout_height="80dp"
         android:layout_alignParentStart="true"
         android:foregroundGravity="center_horizontal"
-        tools:src="@android:drawable/ic_dialog_dialer" />
+        tools:src="@mipmap/ic_launcher" />
 
 </RelativeLayout>

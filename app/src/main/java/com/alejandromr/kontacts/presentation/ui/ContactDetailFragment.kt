@@ -20,14 +20,21 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
             ContactDetailFragmentArgs.fromBundle(arguments).contact.let { contact ->
                 binding?.apply {
                     name.text = "${contact.name.first} ${contact.name.last}"
-                    location.text =
-                        "${contact.location.street.name}, ${contact.location.street.number}, ${contact.location.city}, ${contact.location.state}"
-                    email.text = "${contact.email} | ${contact.phone}"
+
+                    location.text = "${contact.location.street.name}, ${contact.location.street.number}, ${contact.location.city}, ${contact.location.state}"
+
+                    email.text = contact.email
+
+                    phone.text = contact.phone
+
+                    gender.text = contact.gender
+
                     registrationDate.text = "${contact.registered.date}"
+
                     picture.apply {
                         if (contact.picture.thumbnail.isNotBlank()) {
                             Glide.with(this.context)
-                                .load(contact.picture.large)
+                                .load(contact.picture.thumbnail)
                                 .centerCrop().into(this)
                         }
                     }
