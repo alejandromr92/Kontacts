@@ -12,6 +12,8 @@ interface ContactsListContract {
 
         fun displayList(list: Set<ContactModel>)
 
+        fun manageEmptyStateVisibility(isEmptyState: Boolean, hasFilteredResults: Boolean)
+
         fun displayError(retryFromApi: Boolean)
 
         fun displayErrorWhileDeleting(contact: ContactModel)

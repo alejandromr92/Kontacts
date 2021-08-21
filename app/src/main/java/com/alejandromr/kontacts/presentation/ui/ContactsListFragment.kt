@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -127,7 +127,7 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     newText?.let {
-                        queryHint = if (it.isEmpty()){
+                        queryHint = if (it.isEmpty()) {
                             "Search a contact..."
                         } else {
                             ""
@@ -137,6 +137,10 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
                     return false
                 }
             })
+        }
+
+        binding.emptyStateMessage.setOnClickListener {
+            presenter.obtainContacts(true)
         }
     }
 
@@ -164,6 +168,18 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
 
     override fun displayList(list: Set<ContactModel>) {
         (binding?.modelList?.adapter as? ContactsAdapter)?.setItems(list)
+    }
+
+    override fun manageEmptyStateVisibility(isEmptyState: Boolean, hasFilteredResults: Boolean) {
+        binding?.emptyStateMessage?.apply {
+            isVisible = isEmptyState
+            text = if (hasFilteredResults) {
+                "Your search did not match any contact on your agenda, try changing your search query"
+            } else {
+                "You currently do not have any contacts,\n tap to load some!"
+            }
+        }
+        binding?.modelList?.isVisible = !isEmptyState
     }
 
     override fun displayError(fromApi: Boolean) {

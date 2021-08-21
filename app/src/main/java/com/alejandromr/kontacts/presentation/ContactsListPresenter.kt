@@ -41,6 +41,7 @@ class ContactsListPresenter(
             } else {
                 view?.displayError(fromApi)
             }
+            view?.manageEmptyStateVisibility(contactsList.isEmpty(), false)
             view?.hideProgress()
         }
     }
@@ -52,6 +53,7 @@ class ContactsListPresenter(
                 deletedContactsList.add(contact)
                 contact.deleted = true
                 deleteContactUseCase(contact)
+                view?.manageEmptyStateVisibility(contactsList.isEmpty(), false)
                 view?.displayList(contactsList)
             } catch (ex: Exception) {
                 view?.displayErrorWhileDeleting(contact)
@@ -60,11 +62,17 @@ class ContactsListPresenter(
     }
 
     override fun filterByInput(input: String) {
-        view?.displayList(contactsList.filter {
+        val filteredContacts = contactsList.filter {
             it.name.first.startsWith(input) || it.name.last.startsWith(
                 input
             ) || it.email.startsWith(input)
-        }.toSet())
+        }.toSet()
+
+        view?.manageEmptyStateVisibility(
+            contactsList.isEmpty(),
+            filteredContacts.isEmpty() && input.isNotEmpty()
+        )
+        view?.displayList(filteredContacts)
     }
 
     override fun detachView() {
