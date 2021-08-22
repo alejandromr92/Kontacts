@@ -27,6 +27,9 @@ ext {
     // Image loader
     glide_version = "4.12.0"
 
+    // Placeholder for images
+    swiperefreshlayout_version = "1.1.0"
+
     // Navigation
     nav_version = "2.3.5"
 

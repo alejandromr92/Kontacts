@@ -3,7 +3,7 @@ package com.alejandromr.kontacts.presentation
 import androidx.recyclerview.widget.RecyclerView
 import com.alejandromr.kontacts.databinding.ContactItemViewBinding
 import com.alejandromr.kontacts.domain.model.ContactModel
-import com.bumptech.glide.Glide
+import com.alejandromr.kontacts.loadImage
 
 class ContactViewHolder(
     val binding: ContactItemViewBinding,
@@ -23,13 +23,7 @@ class ContactViewHolder(
             text = item.phone
         }
 
-        binding.picture.apply {
-            if (item.picture.thumbnail.isNotBlank()) {
-                Glide.with(this.context)
-                    .load(item.picture.medium)
-                    .centerCrop().into(this)
-            }
-        }
+        binding.picture.loadImage(item.picture.large)
 
         binding.itemListRoot.setOnClickListener {
             onContactClicked.invoke(item)

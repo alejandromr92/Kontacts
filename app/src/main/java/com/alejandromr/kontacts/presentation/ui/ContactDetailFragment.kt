@@ -6,7 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.alejandromr.kontacts.R
 import com.alejandromr.kontacts.databinding.FragmentContactDetailBinding
-import com.bumptech.glide.Glide
+import com.alejandromr.kontacts.loadImage
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,13 +43,7 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
                         )
                     }
 
-                    picture.apply {
-                        if (contact.picture.thumbnail.isNotBlank()) {
-                            Glide.with(this.context)
-                                .load(contact.picture.thumbnail)
-                                .centerCrop().into(this)
-                        }
-                    }
+                    picture.loadImage(contact.picture.large)
                 }
             }
         }
