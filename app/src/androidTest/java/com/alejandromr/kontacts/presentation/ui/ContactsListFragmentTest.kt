@@ -158,11 +158,31 @@ class ContactsListFragmentTest {
 
     @Test
     fun verifyDisplayErrorWhileDeleting() {
+        val nameModel = NameModel("name", "surname")
+        val streetModel = StreetModel("name", "66")
+        val locationModel = LocationModel(streetModel, "city", "state")
+        val pictureModel = PictureModel("large", "medium", "thumbnail")
+        val registrationModel = RegistrationModel("date")
+        val contactModel = ContactModel(
+            nameModel,
+            "male",
+            locationModel,
+            registrationModel,
+            "phone",
+            "mail",
+            pictureModel
+        )
+
+        val contactsList = setOf(contactModel)
+
         launchFragment().onFragment { fragment ->
-            fragment.displayError(false)
+            fragment.displayList(contactsList)
+            fragment.displayErrorWhileDeleting(contactModel)
         }
 
         onView(withText("Would you like to try again?")).check(matches(isDisplayed()))
+        onView(withText("Aceptar")).perform(click())
+        verify { presenter.deleteContact(contactModel) }
     }
 
     @Test
