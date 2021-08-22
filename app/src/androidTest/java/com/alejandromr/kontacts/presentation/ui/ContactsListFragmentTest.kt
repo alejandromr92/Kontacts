@@ -1,9 +1,17 @@
 package com.alejandromr.kontacts.presentation.ui
 
+import android.widget.EditText
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.swipeLeft
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -15,6 +23,7 @@ import com.alejandromr.kontacts.domain.model.NameModel
 import com.alejandromr.kontacts.domain.model.PictureModel
 import com.alejandromr.kontacts.domain.model.RegistrationModel
 import com.alejandromr.kontacts.domain.model.StreetModel
+import com.alejandromr.kontacts.presentation.ContactViewHolder
 import com.alejandromr.kontacts.presentation.ContactsListContract
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -34,6 +43,9 @@ class ContactsListFragmentTest {
 
     @MockK
     private lateinit var presenter: ContactsListContract.Presenter
+
+    @MockK
+    private lateinit var navController: NavController
 
     private val module by lazy {
         module { single(override = true) { presenter } }
@@ -127,6 +139,9 @@ class ContactsListFragmentTest {
                 )
             )
         )
+        onView(withId(R.id.emptyStateMessage)).perform(click())
+
+        verify { presenter.obtainContacts(true) }
     }
 
     @Test
@@ -136,6 +151,8 @@ class ContactsListFragmentTest {
         }
 
         onView(withText("Something went wrong")).check(matches(isDisplayed()))
+        onView(withText("Aceptar")).perform(click())
+        verify { presenter.obtainContacts(false) }
     }
 
 
@@ -156,6 +173,132 @@ class ContactsListFragmentTest {
 
         onView(withId(R.id.emptyStateMessage)).check(matches(isDisplayed()))
         onView(withId(R.id.emptyStateMessage)).check(matches(withText("Your search did not match any contact on your agenda, try changing your search query")))
+    }
+
+    @Test
+    fun verifyInputOnSearchFiltersList() {
+        every { presenter.filterByInput(any()) } just Runs
+
+        val nameModel = NameModel("name", "surname")
+        val streetModel = StreetModel("name", "66")
+        val locationModel = LocationModel(streetModel, "city", "state")
+        val pictureModel = PictureModel("large", "medium", "thumbnail")
+        val registrationModel = RegistrationModel("date")
+        val contactModel = ContactModel(
+            nameModel,
+            "male",
+            locationModel,
+            registrationModel,
+            "phone",
+            "mail",
+            pictureModel
+        )
+        val contactModel2 = ContactModel(
+            nameModel,
+            "male",
+            locationModel,
+            registrationModel,
+            "phone",
+            "email2",
+            pictureModel
+        )
+
+        val contactsList = setOf(contactModel, contactModel2)
+
+        launchFragment().onFragment { fragment ->
+            fragment.displayList(contactsList)
+        }
+
+        onView(withId(R.id.searchView)).perform(click())
+        onView(isAssignableFrom(EditText::class.java)).perform(typeText("ema"))
+
+        verify { presenter.filterByInput("e") }
+        verify { presenter.filterByInput("em") }
+        verify { presenter.filterByInput("ema") }
+    }
+
+    @Test
+    fun verifyDeleteOnItemSwipeLeft() {
+        val nameModel = NameModel("name", "surname")
+        val streetModel = StreetModel("name", "66")
+        val locationModel = LocationModel(streetModel, "city", "state")
+        val pictureModel = PictureModel("large", "medium", "thumbnail")
+        val registrationModel = RegistrationModel("date")
+        val contactModel = ContactModel(
+            nameModel,
+            "male",
+            locationModel,
+            registrationModel,
+            "phone",
+            "mail",
+            pictureModel
+        )
+        val contactModel2 = ContactModel(
+            nameModel,
+            "male",
+            locationModel,
+            registrationModel,
+            "phone",
+            "email2",
+            pictureModel
+        )
+
+        val contactsList = setOf(contactModel, contactModel2)
+
+        launchFragment().onFragment { fragment ->
+            fragment.displayList(contactsList)
+        }
+
+        onView(withId(R.id.modelList)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<ContactViewHolder>(
+                0,
+                swipeLeft()
+            )
+        )
+
+        verify { presenter.deleteContact(contactModel) }
+    }
+
+    @Test
+    fun verifyNavigationToDetail() {
+        val nameModel = NameModel("name", "surname")
+        val streetModel = StreetModel("name", "66")
+        val locationModel = LocationModel(streetModel, "city", "state")
+        val pictureModel = PictureModel("large", "medium", "thumbnail")
+        val registrationModel = RegistrationModel("date")
+        val contactModel = ContactModel(
+            nameModel,
+            "male",
+            locationModel,
+            registrationModel,
+            "phone",
+            "mail",
+            pictureModel
+        )
+        val contactModel2 = ContactModel(
+            nameModel,
+            "male",
+            locationModel,
+            registrationModel,
+            "phone",
+            "email2",
+            pictureModel
+        )
+
+        val contactsList = setOf(contactModel, contactModel2)
+
+        launchFragment().onFragment { fragment ->
+            fragment.displayList(contactsList)
+        }
+
+        onView(withId(R.id.modelList)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<ContactViewHolder>(
+                0,
+                click()
+            )
+        )
+
+        verify { navController.navigate(ContactsListFragmentDirections.navigateToDetail(contactModel)) }
     }
 
     @Test
@@ -180,6 +323,18 @@ class ContactsListFragmentTest {
 
     private fun launchFragment(): FragmentScenario<ContactsListFragment> =
         launchFragmentInContainer(themeResId = R.style.Theme_Kontacts) {
-            ContactsListFragment()
+            ContactsListFragment().also { fragment ->
+
+                // In addition to returning a new instance of our Fragment,
+                // get a callback whenever the fragment’s view is created
+                // or destroyed so that we can set the NavController
+                fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
+                    if (viewLifecycleOwner != null) {
+                        // The fragment’s view has just been created
+                        navController.setGraph(R.navigation.contacts_nav_graph)
+                        Navigation.setViewNavController(fragment.requireView(), navController)
+                    }
+                }
+            }
         }
 }

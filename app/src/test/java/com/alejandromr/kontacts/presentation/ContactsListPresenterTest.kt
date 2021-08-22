@@ -140,7 +140,7 @@ class ContactsListPresenterTest {
             view.hideProgress()
 
             view.manageEmptyStateVisibility(isEmptyState = false, true)
-            view.displayList(any())
+            view.displayList(setOf(contactModel))
         }
     }
 }
