@@ -187,10 +187,10 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
             MaterialAlertDialogBuilder(it)
                 .setTitle("Something went wrong")
                 .setMessage("Would you like to try again?")
-                .setPositiveButton(android.R.string.yes) { _, _ ->
+                .setPositiveButton("Yes") { _, _ ->
                     presenter.obtainContacts(fromApi)
                 }  // A null listener allows the button to dismiss the dialog and take no further action.
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton("No", null)
                 .show()
         }
     }
@@ -200,10 +200,10 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
             MaterialAlertDialogBuilder(it)
                 .setTitle("Something went wrong while trying to delete ${contact.name.first}")
                 .setMessage("Would you like to try again?")
-                .setPositiveButton(android.R.string.yes) { _, _ ->
+                .setPositiveButton("Yes") { _, _ ->
                     presenter.deleteContact(contact)
                 }  // A null listener allows the button to dismiss the dialog and take no further action.
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton("No", null)
                 .show()
         }
     }

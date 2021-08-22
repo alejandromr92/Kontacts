@@ -151,7 +151,7 @@ class ContactsListFragmentTest {
         }
 
         onView(withText("Something went wrong")).check(matches(isDisplayed()))
-        onView(withText("Aceptar")).perform(click())
+        onView(withText("Yes")).perform(click())
         verify { presenter.obtainContacts(false) }
     }
 
@@ -181,7 +181,7 @@ class ContactsListFragmentTest {
         }
 
         onView(withText("Would you like to try again?")).check(matches(isDisplayed()))
-        onView(withText("Aceptar")).perform(click())
+        onView(withText("Yes")).perform(click())
         verify { presenter.deleteContact(contactModel) }
     }
 
