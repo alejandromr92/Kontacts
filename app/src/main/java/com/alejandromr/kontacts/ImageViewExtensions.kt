@@ -10,7 +10,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
-
 fun AppCompatImageView.loadImage(url: String?) {
     url?.let {
         if (url.isNotBlank()) {

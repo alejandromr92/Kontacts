@@ -48,6 +48,7 @@ class ContactsListPresenter(
 
     override fun deleteContact(contact: ContactModel) {
         coroutineScope.launch {
+            view?.showProgress()
             try {
                 contactsList.remove(contact)
                 deletedContactsList.add(contact)
@@ -57,6 +58,8 @@ class ContactsListPresenter(
                 view?.displayList(contactsList)
             } catch (ex: Exception) {
                 view?.displayErrorWhileDeleting(contact)
+            } finally {
+                view?.hideProgress()
             }
         }
     }
@@ -70,7 +73,7 @@ class ContactsListPresenter(
 
         view?.manageEmptyStateVisibility(
             contactsList.isEmpty(),
-            filteredContacts.isEmpty() && input.isNotEmpty()
+            filteredContacts.isNotEmpty() && input.isNotEmpty()
         )
         view?.displayList(filteredContacts)
     }
