@@ -22,10 +22,16 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
         arguments?.let { arguments ->
             ContactDetailFragmentArgs.fromBundle(arguments).contact.let { contact ->
                 binding?.apply {
-                    name.text = "${contact.name.first} ${contact.name.last}"
+                    name.text =
+                        getString(R.string.name_placeholder, contact.name.first, contact.name.last)
 
-                    location.text =
-                        "${contact.location.street.name}, ${contact.location.street.number}, ${contact.location.city}, ${contact.location.state}"
+                    location.text = getString(
+                        R.string.location_placeholder,
+                        contact.location.street.name,
+                        contact.location.street.number,
+                        contact.location.city,
+                        contact.location.state
+                    )
 
                     email.text = contact.email
 
@@ -33,7 +39,8 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
 
                     gender.text = contact.gender
 
-                    val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val format =
+                        SimpleDateFormat(getString(R.string.date_pattern), Locale.getDefault())
 
                     format.parse(contact.registered.date)?.let {
                         registrationDate.text = DateUtils.formatDateTime(

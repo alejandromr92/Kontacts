@@ -8,5 +8,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="search_hint">Search a contact...</string>
-    <string name="empty"></string>
+    <string name="date_pattern">yyyy-MM-dd</string>
+    <string name="name_placeholder">%1s %2s</string>
+    <string name="location_placeholder">%1s, %2s, %3s, %4s</string>
 </resources>
