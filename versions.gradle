@@ -44,4 +44,5 @@ ext {
     espresso_version = "3.3.0"
     barista_version = "3.7.0"
     robolectric_version = "4.5.1"
+    barista_version = "4.0.0"
 }
