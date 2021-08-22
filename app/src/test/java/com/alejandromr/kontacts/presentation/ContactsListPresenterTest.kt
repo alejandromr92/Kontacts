@@ -64,7 +64,7 @@ class ContactsListPresenterTest {
             view.showProgress()
             getContactsUseCase(false)
             view.displayList(any())
-            view.manageEmptyStateVisibility(isEmptyState = false, hasFilteredResults = false)
+            view.manageEmptyStateVisibility(isEmptyState = false, searchDidNotMatch = false)
             view.hideProgress()
         }
     }
@@ -79,7 +79,7 @@ class ContactsListPresenterTest {
             view.showProgress()
             getContactsUseCase(false)
             view.displayError(false)
-            view.manageEmptyStateVisibility(isEmptyState = true, hasFilteredResults = false)
+            view.manageEmptyStateVisibility(isEmptyState = true, searchDidNotMatch = false)
             view.hideProgress()
         }
     }
@@ -93,7 +93,7 @@ class ContactsListPresenterTest {
         coVerifySequence {
             view.showProgress()
             deleteContactUseCase(contactModel)
-            view.manageEmptyStateVisibility(isEmptyState = true, hasFilteredResults = false)
+            view.manageEmptyStateVisibility(isEmptyState = true, searchDidNotMatch = false)
             view.displayList(any())
             view.hideProgress()
         }
@@ -136,10 +136,10 @@ class ContactsListPresenterTest {
             view.showProgress()
             getContactsUseCase(false)
             view.displayList(any())
-            view.manageEmptyStateVisibility(isEmptyState = false, hasFilteredResults = false)
+            view.manageEmptyStateVisibility(isEmptyState = false, searchDidNotMatch = false)
             view.hideProgress()
 
-            view.manageEmptyStateVisibility(isEmptyState = false, true)
+            view.manageEmptyStateVisibility(isEmptyState = false, searchDidNotMatch = false)
             view.displayList(setOf(contactModel))
         }
     }
