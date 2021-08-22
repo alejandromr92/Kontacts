@@ -127,7 +127,7 @@ class ContactsListFragmentTest {
     @Test
     fun verifyDisplayEmptyState() {
         launchFragment().onFragment { fragment ->
-            fragment.manageEmptyStateVisibility(isEmptyState = true, hasFilteredResults = false)
+            fragment.manageEmptyStateVisibility(isEmptyState = true, searchDidNotMatch = false)
         }
 
         onView(withId(R.id.emptyStateMessage)).check(matches(isDisplayed()))
@@ -188,7 +188,7 @@ class ContactsListFragmentTest {
     @Test
     fun verifyDisplayFilteredContactsEmpty() {
         launchFragment().onFragment { fragment ->
-            fragment.manageEmptyStateVisibility(isEmptyState = true, hasFilteredResults = true)
+            fragment.manageEmptyStateVisibility(isEmptyState = true, searchDidNotMatch = true)
         }
 
         onView(withId(R.id.emptyStateMessage)).check(matches(isDisplayed()))

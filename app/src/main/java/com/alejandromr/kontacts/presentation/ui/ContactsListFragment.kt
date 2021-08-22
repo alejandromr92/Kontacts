@@ -23,7 +23,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import org.koin.android.ext.android.inject
 
-
 class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContract.View {
 
     private val presenter: ContactsListContract.Presenter by inject()
@@ -44,6 +43,34 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
     }
 
     private fun configViews(binding: FragmentListBinding) {
+        configRecyclerView(binding)
+
+        binding.searchView.apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    newText?.let {
+                        queryHint = if (it.isEmpty()) {
+                            getString(R.string.search_hint)
+                        } else {
+                            ""
+                        }
+                        presenter.filterByInput(newText)
+                    }
+                    return false
+                }
+            })
+        }
+
+        binding.emptyStateMessage.setOnClickListener {
+            presenter.obtainContacts(true)
+        }
+    }
+
+    private fun configRecyclerView(binding: FragmentListBinding) {
         binding.modelList.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -118,30 +145,6 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
                 }
             })
         }
-
-        binding.searchView.apply {
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    newText?.let {
-                        queryHint = if (it.isEmpty()) {
-                            "Search a contact..."
-                        } else {
-                            ""
-                        }
-                        presenter.filterByInput(newText)
-                    }
-                    return false
-                }
-            })
-        }
-
-        binding.emptyStateMessage.setOnClickListener {
-            presenter.obtainContacts(true)
-        }
     }
 
     private fun navigateToContactDetail(contact: ContactModel) {
@@ -174,9 +177,9 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
         binding?.emptyStateMessage?.apply {
             isVisible = isEmptyState || searchDidNotMatch
             text = if (searchDidNotMatch) {
-                "Your search did not match any contact on your agenda, try changing your search query"
+                getString(R.string.empty_state_filtering_message)
             } else {
-                "You currently do not have any contacts,\n tap to load some!"
+                getString(R.string.empty_state_message)
             }
             if (isEmptyState && !searchDidNotMatch) {
                 setOnClickListener {
@@ -189,15 +192,15 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
         binding?.modelList?.isVisible = !isEmptyState && !searchDidNotMatch
     }
 
-    override fun displayError(fromApi: Boolean) {
+    override fun displayError(retryFromApi: Boolean) {
         context?.let {
             MaterialAlertDialogBuilder(it)
-                .setTitle("Something went wrong")
-                .setMessage("Would you like to try again?")
-                .setPositiveButton("Yes") { _, _ ->
-                    presenter.obtainContacts(fromApi)
+                .setTitle(getString(R.string.error_message))
+                .setMessage(getString(R.string.try_again))
+                .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                    presenter.obtainContacts(retryFromApi)
                 }  // A null listener allows the button to dismiss the dialog and take no further action.
-                .setNegativeButton("No", null)
+                .setNegativeButton(getString(R.string.no), null)
                 .show()
         }
     }
@@ -205,12 +208,12 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
     override fun displayErrorWhileDeleting(contact: ContactModel) {
         context?.let {
             MaterialAlertDialogBuilder(it)
-                .setTitle("Something went wrong while trying to delete ${contact.name.first}")
-                .setMessage("Would you like to try again?")
-                .setPositiveButton("Yes") { _, _ ->
+                .setTitle(getString(R.string.error_message_deleting, contact.name.first))
+                .setMessage(getString(R.string.try_again))
+                .setPositiveButton(getString(R.string.yes)) { _, _ ->
                     presenter.deleteContact(contact)
                 }  // A null listener allows the button to dismiss the dialog and take no further action.
-                .setNegativeButton("No", null)
+                .setNegativeButton(getString(R.string.no), null)
                 .show()
         }
     }

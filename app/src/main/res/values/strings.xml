@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Kontacts</string>
     <string name="empty_state_message">You currently do not have any contacts,\n tap to load some!</string>
+    <string name="empty_state_filtering_message">Your search did not match any contact on your agenda, try changing your search query</string>
+    <string name="error_message">Something went wrong</string>
+    <string name="error_message_deleting">"Something went wrong while trying to delete %1s</string>
+    <string name="try_again">Would you like to try again?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="search_hint">Search a contact...</string>
+    <string name="empty"></string>
 </resources>
