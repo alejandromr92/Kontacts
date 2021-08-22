@@ -1,10 +1,7 @@
 package com.alejandromr.kontacts.api.model
 
 import com.alejandromr.kontacts.api.GsonFactoryTest
-import org.junit.Assert.*
-
-import org.junit.After
-import org.junit.Before
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ContactApiModelTest {

@@ -6,10 +6,6 @@ interface ContactsListContract {
 
     interface View : BaseContract.View {
 
-        fun showProgress()
-
-        fun hideProgress()
-
         fun displayList(list: Set<ContactModel>)
 
         fun manageEmptyStateVisibility(isEmptyState: Boolean, searchDidNotMatch: Boolean)

@@ -214,8 +214,4 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
                 .show()
         }
     }
-
-    companion object {
-        const val TAG = "ContactsListFragment"
-    }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Kontacts</string>
+    <string name="empty_state_message">You currently do not have any contacts,\n tap to load some!</string>
 </resources>

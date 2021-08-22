@@ -11,11 +11,11 @@ class NetworkClient(
     private val gson: Gson
 ) {
 
-    val client: OkHttpClient by lazy { getOkHttpBuilder().build() }
+    private val client: OkHttpClient by lazy { getOkHttpBuilder().build() }
 
     val retrofit: Retrofit by lazy { getRetrofitBuilder().build() }
 
-    fun getOkHttpBuilder(): OkHttpClient.Builder {
+    private fun getOkHttpBuilder(): OkHttpClient.Builder {
         return okHttpClient.newBuilder().apply {
             addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -23,7 +23,7 @@ class NetworkClient(
         }
     }
 
-    fun getRetrofitBuilder(client: OkHttpClient = this.client): Retrofit.Builder {
+    private fun getRetrofitBuilder(client: OkHttpClient = this.client): Retrofit.Builder {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)

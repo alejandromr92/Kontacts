@@ -3,7 +3,9 @@ package com.alejandromr.kontacts.presentation
 interface BaseContract {
 
     interface View {
+        fun showProgress()
 
+        fun hideProgress()
     }
 
     interface Presenter<V : View> {

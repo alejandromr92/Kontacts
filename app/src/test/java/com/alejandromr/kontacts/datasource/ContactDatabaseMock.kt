@@ -1,7 +1,5 @@
 package com.alejandromr.kontacts.datasource
 
-import androidx.room.PrimaryKey
-
 object ContactDatabaseMock {
 
     fun getDbContacts() = listOf(

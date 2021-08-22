@@ -5,12 +5,10 @@ import com.alejandromr.kontacts.api.model.LocationApiModel
 import com.alejandromr.kontacts.api.model.NameApiModel
 import com.alejandromr.kontacts.api.model.PictureApiModel
 import com.alejandromr.kontacts.api.model.RegistrationApiModel
-import com.alejandromr.kontacts.api.model.StreetApiModel
 import com.alejandromr.kontacts.domain.model.LocationModel
 import com.alejandromr.kontacts.domain.model.NameModel
 import com.alejandromr.kontacts.domain.model.PictureModel
 import com.alejandromr.kontacts.domain.model.RegistrationModel
-import com.alejandromr.kontacts.domain.model.StreetModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -29,12 +27,6 @@ class ContactMapperTest {
 
     @MockK
     private lateinit var nameModel: NameModel
-
-    @MockK
-    private lateinit var streetApiModel: StreetApiModel
-
-    @MockK
-    private lateinit var streetModel: StreetModel
 
     @MockK
     private lateinit var locationApiModel: LocationApiModel

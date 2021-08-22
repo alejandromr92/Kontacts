@@ -35,7 +35,7 @@
         android:background="@color/white"
         android:gravity="center"
         android:padding="20dp"
-        android:text="You currently do not have any contacts,\n tap to load some!"
+        android:text="@string/empty_state_message"
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -54,8 +54,4 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
 
         binding = null
     }
-
-    companion object {
-        const val TAG = "ContactDetailFragment"
-    }
 }
