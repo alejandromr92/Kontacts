@@ -12,7 +12,7 @@ interface ContactsListContract {
 
         fun displayList(list: Set<ContactModel>)
 
-        fun manageEmptyStateVisibility(isEmptyState: Boolean, hasFilteredResults: Boolean)
+        fun manageEmptyStateVisibility(isEmptyState: Boolean, searchDidNotMatch: Boolean)
 
         fun displayError(retryFromApi: Boolean)
 

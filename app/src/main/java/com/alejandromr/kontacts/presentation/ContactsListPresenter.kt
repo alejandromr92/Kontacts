@@ -73,7 +73,7 @@ class ContactsListPresenter(
 
         view?.manageEmptyStateVisibility(
             contactsList.isEmpty(),
-            filteredContacts.isNotEmpty() && input.isNotEmpty()
+            filteredContacts.isEmpty() && input.isNotEmpty()
         )
         view?.displayList(filteredContacts)
     }

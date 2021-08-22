@@ -170,16 +170,23 @@ class ContactsListFragment : Fragment(R.layout.fragment_list), ContactsListContr
         (binding?.modelList?.adapter as? ContactsAdapter)?.setItems(list)
     }
 
-    override fun manageEmptyStateVisibility(isEmptyState: Boolean, hasFilteredResults: Boolean) {
+    override fun manageEmptyStateVisibility(isEmptyState: Boolean, searchDidNotMatch: Boolean) {
         binding?.emptyStateMessage?.apply {
-            isVisible = isEmptyState
-            text = if (hasFilteredResults) {
+            isVisible = isEmptyState || searchDidNotMatch
+            text = if (searchDidNotMatch) {
                 "Your search did not match any contact on your agenda, try changing your search query"
             } else {
                 "You currently do not have any contacts,\n tap to load some!"
             }
+            if (isEmptyState && !searchDidNotMatch) {
+                setOnClickListener {
+                    presenter.obtainContacts(true)
+                }
+            } else {
+                setOnClickListener {}
+            }
         }
-        binding?.modelList?.isVisible = !isEmptyState
+        binding?.modelList?.isVisible = !isEmptyState && !searchDidNotMatch
     }
 
     override fun displayError(fromApi: Boolean) {
